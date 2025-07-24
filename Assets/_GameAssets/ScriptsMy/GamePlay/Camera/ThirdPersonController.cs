@@ -20,17 +20,24 @@ public class ThirdPersonController : MonoBehaviour
      
     Vector3 WiewDirection =_PlayerTransform.position - new Vector3(transform.position.x, _PlayerTransform.position.y,transform.position.z);
 
+        _orientationTransform.forward = WiewDirection.normalized;
 
         float _horizontalInput = Input.GetAxisRaw("Horizontal");
 
         float _verticalInput = Input.GetAxisRaw("Vertical");
 
-        Vector3 InputDirection = _orientationTransform.forward * _verticalInput + _orientationTransform.right * _horizontalInput;
+        Vector3 inputDirection = _orientationTransform.forward * _verticalInput + _orientationTransform.right * _horizontalInput;
 
-        _PlayerVisualTransform.forward = Vector3.Slerp(_PlayerVisualTransform.forward, InputDirection.normalized, Time.deltaTime * _rotationSpeed);
+
+        if(inputDirection != Vector3.zero)
+        {
+            _PlayerVisualTransform.forward = Vector3.Slerp(_PlayerVisualTransform.forward, inputDirection.normalized, Time.deltaTime * _rotationSpeed);
+        }
+       
 
 
     }
+
 
     
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
@@ -51,10 +52,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
 
 
-
+    private PlayerStateControl _playerStateControl;
 
     private void Awake()
     {
+        _playerStateControl = GetComponent<PlayerStateControl>();
         _playerrigidbody = GetComponent<Rigidbody>();
         _playerrigidbody.freezeRotation = true; 
     }
@@ -63,6 +65,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
 
           SetInputs();
+        Setstates();
         SetPlayerDrag();
         PlayerSpeedLimit();
     }
@@ -97,6 +100,42 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
 
     }
+
+
+
+    private void Setstates()
+    {
+        var movementdirection = GetMovementDirection();
+
+        var isgrounded = ÝsGrounded();
+
+        var currentstate = _playerStateControl.GetCurrentState();
+
+        var issliding = Ýsliding();
+
+        var newstate = currentstate switch
+        {
+            _ when movementdirection == Vector3.zero && isgrounded && !issliding => PlayerState.Idle,
+            _ when movementdirection != Vector3.zero && isgrounded && !issliding => PlayerState.Move,
+            _ when movementdirection != Vector3.zero && isgrounded && issliding => PlayerState.Slide,
+            _ when movementdirection == Vector3.zero && isgrounded && issliding => PlayerState.SlideIdle,
+            _ when _canJump && !isgrounded =>PlayerState.Jump,
+             
+            _ => currentstate
+        };
+
+
+        if(newstate != currentstate)
+        {
+            _playerStateControl.ChangeState(newstate);
+
+        }
+
+    }
+
+
+
+
 
     private void PlayerSpeedLimit()
     {
@@ -145,19 +184,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         if (_isslide)
         {
-
             _playerrigidbody.AddForce( _MoveDirection.normalized * _movementSpeed * _slideMultiplier, ForceMode.Force);
         }
 
         else
         {
-
             _playerrigidbody.AddForce(_MoveDirection * _movementSpeed , ForceMode.Force);
-
         }
 
-
-    
     }
 
     private void SetPlayerjump()
@@ -167,20 +201,32 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         _playerrigidbody.AddForce(transform.up * _jumpForce,ForceMode.Impulse);  
 
-
-         
-
-
     }
 
     private void Resetjumping()
     {
-        
         _canJump = true;
     }
 
     private bool ÝsGrounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, _PlayerHeight * 0.5f + 0.2f, _GroundLayer);
+    }
+
+
+
+    public Vector3 GetMovementDirection()
+    {
+     
+        return _MoveDirection.normalized;
+
+    }
+
+    public bool Ýsliding()
+    {
+
+        return _isslide;
+
+
     }
 }
