@@ -13,7 +13,7 @@ public class PlayerStateControl : MonoBehaviour
     }
 
 
-    public void ChangeState(PlayerState _newPlayerState)
+    public void ChangeState(PlayerState _newPlayerState) 
     {
         if(_currentState == _newPlayerState)
         {
