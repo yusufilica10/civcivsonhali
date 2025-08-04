@@ -1,31 +1,39 @@
 using UnityEngine;
 
+
+
 public class PlayerInteractionController : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        
-        if(other.CompareTag(Const.WeathTypes.GOLD_WEATH))
+        // GOLD
+        var gold = other.GetComponent<GoldwheatCollectible>();
+        if (gold != null)
         {
-            
-           Debug.Log("Gold Weath Collected");
-            Destroy(other.gameObject);
-        }
-        if (other.CompareTag(Const.WeathTypes.HOLLY_WEATH))
-        {
-
-            Debug.Log("Holly Weath Collected");
-            Destroy(other.gameObject);
+            gold.Collect();
+            Debug.Log("Gold Weath Collected");
+            return;
         }
 
-        if (other.CompareTag(Const.WeathTypes.ROTTEN_WEATH))
+        // HOLY
+        var holy = other.GetComponent<HolyWheatCollectible>();
+        if (holy != null)
         {
+            holy.Collect();
+            Debug.Log("Holy Weath Collected");
+            return;
+        }
 
+        // ROTTEN
+        var rotten = other.GetComponent<RottenWheatCollectible>();
+        if (rotten != null)
+        {
+            rotten.Collect();
             Debug.Log("Rotten Weath Collected");
-            Destroy(other.gameObject);
+            return;
         }
 
-
-
+        // Hiçbiri deðilse logla
+        Debug.LogWarning("Unknown object collided: " + other.name);
     }
 }

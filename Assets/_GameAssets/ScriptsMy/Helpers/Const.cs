@@ -17,11 +17,11 @@ public class Const
     public struct WeathTypes
     {
 
-     public const string GOLD_WEATH = "GoldWeath";
+     public const string GOLD_WHEATH = "GoldWheat";
 
-     public const string HOLLY_WEATH = "HollyWeath";
+     public const string HOLY_WHEATH = "HolyWheat";
 
-      public const string ROTTEN_WEATH = "RottenWeath";
+      public const string ROTTEN_WHEATH = "RottenWheat";
 
     }
     
