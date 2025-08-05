@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class GoldwheatCollectible : MonoBehaviour
+public class GoldwheatCollectible : MonoBehaviour , ICollectible
 {
+    [SerializeField] private WheatDesingSO _WheatDesingSO;
+
+
     [SerializeField] private PlayerController _PlayerController;
 
-    [SerializeField] private float _MovementIncreaseSpeed;
-
-    [SerializeField] private float _ResetBoostDuration;
-
+   
     public void Collect()
     {
         // Eðer atanmamýþsa sahnede bul
@@ -23,7 +23,7 @@ public class GoldwheatCollectible : MonoBehaviour
             return;
         }
 
-        _PlayerController.SetPlayerMovementSpeed(_MovementIncreaseSpeed, _ResetBoostDuration);
+        _PlayerController.SetPlayerMovementSpeed(_WheatDesingSO.IncreasedDecreaseMultiplier, _WheatDesingSO.ResetBoostDuration);
         Destroy(gameObject); // Destroy the collectible after collection
     }
 }

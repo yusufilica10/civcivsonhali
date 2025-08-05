@@ -72,7 +72,7 @@ public class PlayerAnimationController : MonoBehaviour
 
         _Playeranimator.SetBool(Const.PlayerAnimation.IS_JUMPING , true);
         Invoke(nameof(ResetJumpAnimation), 0.5f);
-                    
+                    //
     }
 
     private void ResetJumpAnimation()

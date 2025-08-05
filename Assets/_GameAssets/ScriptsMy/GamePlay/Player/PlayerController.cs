@@ -140,8 +140,7 @@ public class PlayerController : MonoBehaviour
             _ when movementdirection != Vector3.zero && isgrounded && !issliding => PlayerState.Move,
             _ when movementdirection != Vector3.zero && isgrounded && issliding => PlayerState.Slide,
             _ when movementdirection == Vector3.zero && isgrounded && issliding => PlayerState.SlideIdle,
-            _ when _canJump && !isgrounded =>PlayerState.Jump,
-             
+            _ when !isgrounded => PlayerState.Jump,
             _ => currentState
         };
 
